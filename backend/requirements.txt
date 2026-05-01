@@ -1,0 +1,16 @@
+# Loose minimum pins — we'll lock to exact versions later via `pip freeze`.
+# Minimums chosen so Python 3.14 wheels are available.
+fastapi>=0.115.0
+uvicorn[standard]>=0.34.0
+pydantic>=2.11.0
+pydantic-settings>=2.7.0
+sqlalchemy>=2.0.36
+alembic>=1.14.0
+psycopg[binary]>=3.2.10
+bcrypt>=4.2.1
+pyjwt[crypto]>=2.10.1
+groq>=0.13.0
+pinecone>=5.4.2
+huggingface-hub>=0.27.0
+httpx>=0.28.1
+python-multipart>=0.0.20
