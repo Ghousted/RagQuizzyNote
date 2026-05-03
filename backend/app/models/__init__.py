@@ -6,3 +6,4 @@ from app.models.chunk import Chunk  # noqa: F401
 from app.models.flashcard import Flashcard  # noqa: F401
 from app.models.review import Review  # noqa: F401
 from app.models.quiz import Quiz  # noqa: F401
+from app.models.performance import Performance  # noqa: F401

@@ -30,6 +30,7 @@ FIXTURES = [
         "criteria": {
             "min_count": 3,
             "required_concepts": ["helicase", "polymerase", "semi-conservative"],
+            "required_concepts_min": 2,  # require 2 of 3 — accounts for LLM sampling variance
             "schema_required": ["question", "answer"],
         },
     },

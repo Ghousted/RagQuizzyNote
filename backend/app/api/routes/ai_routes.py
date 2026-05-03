@@ -1,4 +1,5 @@
 import uuid
+from datetime import datetime, timezone
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.db.session import get_db
@@ -14,11 +15,43 @@ from app.services.generation.flashcard_service import generate_flashcards_for_no
 from app.services.generation.quiz_service import generate_quiz_for_note, answer_quiz_question
 from app.services.generation.explanation_service import explain_concept
 from app.services.evaluation.answer_evaluator import evaluate_answer
+from app.core.rate_limit import ai_limiter
 
 router = APIRouter(tags=["ai"])
 
 
 # ── Flashcards ────────────────────────────────────────────────────────────────
+
+@router.get("/flashcards/due", response_model=list[FlashcardOut])
+def get_due_flashcards(
+    limit: int = 20,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    cards = (
+        db.query(Flashcard)
+        .filter(Flashcard.user_id == current_user.id, Flashcard.due_at <= datetime.now(timezone.utc))
+        .order_by(Flashcard.due_at.asc())
+        .limit(limit)
+        .all()
+    )
+    return [FlashcardOut(id=c.id, question=c.question, answer=c.answer, due_at=c.due_at.isoformat()) for c in cards]
+
+
+@router.get("/notes/{note_id}/flashcards", response_model=list[FlashcardOut])
+def get_flashcards(
+    note_id: uuid.UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    cards = (
+        db.query(Flashcard)
+        .filter(Flashcard.note_id == note_id, Flashcard.user_id == current_user.id)
+        .order_by(Flashcard.created_at.asc())
+        .all()
+    )
+    return [FlashcardOut(id=c.id, question=c.question, answer=c.answer, due_at=c.due_at.isoformat()) for c in cards]
+
 
 @router.post("/notes/{note_id}/flashcards", response_model=list[FlashcardOut], status_code=201)
 def create_flashcards(
@@ -26,6 +59,7 @@ def create_flashcards(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
+    ai_limiter.check(str(current_user.id))
     note = db.query(Note).filter(Note.id == note_id, Note.user_id == current_user.id).first()
     if not note:
         raise HTTPException(status_code=404, detail="Note not found")
@@ -56,12 +90,30 @@ def answer_flashcard(
 
 # ── Quiz ──────────────────────────────────────────────────────────────────────
 
+@router.get("/notes/{note_id}/quiz", response_model=QuizOut | None)
+def get_latest_quiz(
+    note_id: uuid.UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    quiz = (
+        db.query(Quiz)
+        .filter(Quiz.note_id == note_id, Quiz.user_id == current_user.id)
+        .order_by(Quiz.created_at.desc())
+        .first()
+    )
+    if not quiz:
+        return None
+    return QuizOut(id=quiz.id, note_id=quiz.note_id, question_count=len(quiz.questions), questions=quiz.questions)
+
+
 @router.post("/notes/{note_id}/quiz", response_model=QuizOut, status_code=201)
 def create_quiz(
     note_id: uuid.UUID,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
+    ai_limiter.check(str(current_user.id))
     note = db.query(Note).filter(Note.id == note_id, Note.user_id == current_user.id).first()
     if not note:
         raise HTTPException(status_code=404, detail="Note not found")
@@ -91,5 +143,6 @@ def explain(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
+    ai_limiter.check(str(current_user.id))
     result = explain_concept(db, body.concept, current_user.id, note_id=body.note_id)
     return ExplainResponse(**result)

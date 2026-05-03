@@ -1,0 +1,366 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  animation: fadeIn 200ms ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Loading skeleton */
+.loadingPage {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 8px;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+.breadcrumbLink {
+  color: var(--text-2);
+  transition: color var(--duration) ease;
+}
+.breadcrumbLink:hover { color: var(--text); }
+
+.breadcrumbSep { color: var(--text-3); }
+
+.breadcrumbCurrent {
+  color: var(--text);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 280px;
+}
+
+/* Title area */
+.titleArea {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.titleRow {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.titleInput {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+  padding: 0;
+}
+.titleInput::placeholder { color: var(--text-3); }
+
+.titleMeta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.savingIndicator {
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+.savedIndicator {
+  font-size: 12px;
+  color: var(--green);
+}
+
+.metaText {
+  font-size: 12px;
+  color: var(--text-3);
+  flex: 1;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  gap: 0;
+}
+
+.tab {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-3);
+  padding: 8px 16px;
+  font-family: var(--font);
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: -1px;
+  transition: color var(--duration) ease, border-color var(--duration) ease;
+}
+.tab:hover { color: var(--text-2); }
+.tabActive { color: var(--text) !important; border-bottom-color: var(--primary) !important; }
+
+/* Content tab */
+.contentTab { }
+
+.contentArea {
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 14px;
+  line-height: 1.8;
+  outline: none;
+  resize: none;
+  overflow: hidden;
+  min-height: 320px;
+  transition: border-color var(--duration) ease;
+}
+.contentArea:focus { border-color: var(--border-2); background: var(--bg-hover); }
+.contentArea::placeholder { color: var(--text-3); }
+
+/* Tab panels */
+.tabPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.tabActions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.playerWrapper {
+  margin-top: 8px;
+}
+
+/* Flashcard grid */
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+.flashCard {
+  perspective: 800px;
+  height: 160px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+}
+
+.flashCardInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 400ms ease;
+  transform-style: preserve-3d;
+}
+
+.flashCard.flipped .flashCardInner {
+  transform: rotateY(180deg);
+}
+
+.flashCardFront,
+.flashCardBack {
+  position: absolute;
+  inset: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  backface-visibility: hidden;
+  overflow: hidden;
+}
+
+.flashCardBack {
+  transform: rotateY(180deg);
+  background: var(--surface-2);
+  border-color: var(--primary-dim);
+}
+
+.flashCard:hover .flashCardFront,
+.flashCard:hover .flashCardBack {
+  border-color: var(--border-2);
+}
+
+.cardNum {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--primary);
+  background: var(--primary-dim);
+  padding: 2px 6px;
+  border-radius: 4px;
+  align-self: flex-start;
+  letter-spacing: 0.03em;
+}
+
+.cardQ {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.5;
+  flex: 1;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.cardA {
+  font-size: 13px;
+  color: var(--text-2);
+  line-height: 1.5;
+  flex: 1;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.cardHint {
+  font-size: 10px;
+  color: var(--text-3);
+  margin-top: auto;
+}
+
+/* Quiz ready state */
+.quizReady {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.quizBadge {
+  background: var(--primary-dim);
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: var(--radius);
+}
+
+.quizHint {
+  font-size: 13px;
+  color: var(--text-3);
+}
+
+/* Explain tab */
+.explainHint {
+  font-size: 14px;
+  color: var(--text-2);
+}
+
+.explainRow {
+  display: flex;
+  gap: 8px;
+}
+
+.conceptInput {
+  flex: 1;
+}
+
+.explanationBox {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: fadeIn 200ms ease;
+}
+
+.explanationText {
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--text);
+  white-space: pre-wrap;
+}
+
+.keyPoints, .analogy {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.keyPointsLabel, .analogyLabel {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--primary);
+}
+
+.keyPointsList {
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.keyPointsList li {
+  font-size: 13.5px;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+
+.analogy p {
+  font-size: 13.5px;
+  color: var(--text-2);
+  font-style: italic;
+  line-height: 1.6;
+}
+
+/* Delete modal */
+.deleteModal {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.deleteWarning {
+  font-size: 14px;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+
+.deleteWarning strong {
+  color: var(--text);
+}
+
+.deleteActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}

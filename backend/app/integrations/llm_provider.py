@@ -1,8 +1,9 @@
 from typing import Protocol
-
 from groq import Groq
-
 from app.core.config import get_settings
+from app.core.logging import get_logger
+
+_log = get_logger("quizzynote.llm")
 
 
 class LLMProvider(Protocol):
@@ -19,6 +20,13 @@ class GroqProvider:
         if response_format:
             kwargs["response_format"] = response_format
         resp = self._client.chat.completions.create(**kwargs)
+        if resp.usage:
+            _log.info("llm_call", extra={"ctx": {
+                "model": self._model,
+                "tokens_in": resp.usage.prompt_tokens,
+                "tokens_out": resp.usage.completion_tokens,
+                "total_tokens": resp.usage.total_tokens,
+            }})
         return resp.choices[0].message.content or ""
 
 

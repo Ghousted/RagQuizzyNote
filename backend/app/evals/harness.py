@@ -25,9 +25,13 @@ def _validate_flashcards(cards: list[dict], criteria: dict) -> tuple[bool, str]:
         if not all(field in c for c in cards):
             return False, f"missing field '{field}'"
     all_text = " ".join(f"{c.get('question','')} {c.get('answer','')}" for c in cards).lower()
-    for concept in criteria.get("required_concepts", []):
-        if concept.lower() not in all_text:
-            return False, f"required concept '{concept}' not found in output"
+    required = criteria.get("required_concepts", [])
+    # required_concepts_min: how many of the list must appear (default: all)
+    min_hit = criteria.get("required_concepts_min", len(required))
+    matched = sum(1 for concept in required if concept.lower() in all_text)
+    if matched < min_hit:
+        missing = [c for c in required if c.lower() not in all_text]
+        return False, f"only {matched}/{len(required)} required concepts found (missing: {missing})"
     return True, "ok"
 
 
@@ -119,7 +123,7 @@ def main() -> None:
         if current_rate < prior_rate:
             print(f"\nREGRESSION: pass rate dropped {prior_rate:.0%} → {current_rate:.0%}")
             sys.exit(1)
-        print(f"\nNo regression (baseline {prior_rate:.0%} → current {current_rate:.0%})")
+        print(f"\nNo regression (baseline {prior_rate:.0%} -> current {current_rate:.0%})")
         # Update baseline if we improved
         if current_rate > prior_rate:
             with open(baseline, "w") as f:

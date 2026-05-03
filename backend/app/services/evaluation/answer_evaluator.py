@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from app.models.flashcard import Flashcard
 from app.models.review import Review
 from app.chains.judge_chain import judge_answer
+from app.services.tracking.performance_service import update_performance
 
 
 def _sm2(ease_factor: float, interval_days: int, score: float) -> tuple[float, int]:
@@ -43,7 +44,9 @@ def evaluate_answer(db: Session, flashcard: Flashcard, student_answer: str) -> t
     flashcard.ease_factor = new_ease
     flashcard.interval_days = new_interval
     flashcard.due_at = datetime.now(timezone.utc) + timedelta(days=new_interval)
+    db.flush()
 
+    update_performance(db, flashcard.user_id, flashcard.topic_id)
     db.commit()
     db.refresh(review)
     return review, result

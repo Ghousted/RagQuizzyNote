@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from app.models.note import Note
 from app.models.flashcard import Flashcard
 from app.services.rag.retriever import retrieve_chunks
+from app.services.tracking.performance_service import get_weak_topics
 from app.chains.flashcard_chain import generate_flashcards
 
 
@@ -10,10 +11,11 @@ def generate_flashcards_for_note(
     db: Session, note_id: uuid.UUID, user_id: uuid.UUID
 ) -> list[Flashcard]:
     note = db.query(Note).filter(Note.id == note_id).first()
-    # Build a query that retrieves concept-rich chunks from this note
     query = f"key concepts and definitions from: {note.title}" if note else "key concepts"
 
-    chunks = retrieve_chunks(db, query, user_id, note_id=note_id, top_k=8, rerank_top=3)
+    weak_topic_ids = [p.topic_id for p in get_weak_topics(db, user_id)]
+    chunks = retrieve_chunks(db, query, user_id, note_id=note_id, top_k=8, rerank_top=3,
+                             weak_topic_ids=weak_topic_ids)
     if not chunks:
         return []
 

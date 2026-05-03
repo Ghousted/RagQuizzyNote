@@ -1,0 +1,140 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.pageHeader { }
+
+.heading {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.3px;
+}
+
+/* Lobby card */
+.lobbyCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 48px 32px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  text-align: center;
+  max-width: 480px;
+  animation: fadeIn 200ms ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.lobbyIcon {
+  font-size: 48px;
+  line-height: 1;
+}
+
+.lobbyTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.lobbySubtitle {
+  font-size: 14px;
+  color: var(--text-2);
+  line-height: 1.65;
+  max-width: 340px;
+}
+
+.lobbyStats {
+  display: flex;
+  gap: 24px;
+}
+
+.lobbyStat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.lobbyStatValue {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.lobbyStatLabel {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-3);
+}
+
+/* Active session */
+.session {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: fadeIn 200ms ease;
+}
+
+/* Session summary */
+.summary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 48px 32px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  text-align: center;
+  max-width: 480px;
+  animation: fadeIn 250ms ease;
+}
+
+.summaryIcon {
+  font-size: 48px;
+  line-height: 1;
+}
+
+.summaryTitle {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.summarySubtitle {
+  font-size: 14px;
+  color: var(--text-2);
+}
+
+.summaryScore {
+  font-size: 52px;
+  font-weight: 800;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.green { color: var(--green); }
+.yellow { color: var(--yellow); }
+.red { color: var(--red); }
+
+.summaryScoreLabel {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-3);
+}
+
+.summaryActions {
+  display: flex;
+  gap: 8px;
+}

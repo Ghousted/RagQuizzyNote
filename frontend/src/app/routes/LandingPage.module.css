@@ -1,0 +1,88 @@
+.page { min-height: 100vh; display: flex; flex-direction: column; }
+
+/* Nav */
+.nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; background: var(--bg); z-index: 10;
+}
+.logo { font-weight: 700; font-size: 1.25rem; letter-spacing: -0.5px; }
+.navLinks { display: flex; gap: 0.75rem; }
+
+/* Hero */
+.hero {
+  text-align: center; padding: 6rem 1.5rem 4rem;
+  max-width: 860px; margin: 0 auto;
+}
+.badge {
+  display: inline-block; padding: 0.3rem 0.9rem;
+  background: rgba(124,111,247,0.15); color: var(--primary);
+  border-radius: 999px; font-size: 0.85rem; font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+.heroTitle {
+  font-size: clamp(2.2rem, 6vw, 3.75rem);
+  font-weight: 800; line-height: 1.1; letter-spacing: -1.5px;
+  margin-bottom: 1.25rem;
+}
+.accent { color: var(--primary); }
+.heroSub {
+  font-size: 1.15rem; color: var(--muted); max-width: 600px;
+  margin: 0 auto 2.5rem;
+}
+.heroCta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+/* Demo */
+.demo { padding: 2rem 0 5rem; }
+.demoCard {
+  display: flex; align-items: center; gap: 1.5rem;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 2rem;
+  flex-wrap: wrap;
+}
+.demoNote, .demoFlashcard { flex: 1; min-width: 240px; }
+.demoLabel {
+  font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--muted); margin-bottom: 0.75rem;
+}
+.demoNote p { color: var(--muted); font-size: 0.95rem; line-height: 1.6; }
+.demoArrow { font-size: 1.75rem; color: var(--primary); flex-shrink: 0; }
+.cardQ { font-weight: 600; margin-bottom: 0.5rem; }
+.cardA { color: var(--muted); font-size: 0.95rem; }
+
+/* Features */
+.features { padding: 5rem 0; }
+.sectionTitle {
+  text-align: center; font-size: clamp(1.6rem, 4vw, 2.25rem);
+  font-weight: 700; letter-spacing: -0.5px; margin-bottom: 3rem;
+}
+.featureGrid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+.featureCard {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.75rem;
+  transition: border-color 0.2s;
+}
+.featureCard:hover { border-color: var(--primary); }
+.featureIcon { font-size: 1.75rem; display: block; margin-bottom: 1rem; }
+.featureCard h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; }
+.featureCard p { color: var(--muted); font-size: 0.9rem; line-height: 1.6; }
+
+/* CTA */
+.cta {
+  text-align: center; padding: 5rem 1.5rem;
+  border-top: 1px solid var(--border);
+}
+.cta h2 { font-size: clamp(1.6rem, 4vw, 2.25rem); font-weight: 700; margin-bottom: 0.75rem; }
+.cta p { color: var(--muted); margin-bottom: 2rem; }
+
+/* Footer */
+.footer {
+  padding: 1.5rem; border-top: 1px solid var(--border);
+  margin-top: auto;
+}
+.footer .container { display: flex; justify-content: space-between; align-items: center; }
+.muted { color: var(--muted); font-size: 0.875rem; }

@@ -15,3 +15,4 @@ class Note(TimestampMixin, Base):
     )
     title: Mapped[str] = mapped_column(String(500), nullable=False)
     content: Mapped[str] = mapped_column(Text, nullable=False)
+    icon: Mapped[str | None] = mapped_column(String(10), nullable=True, default=None)

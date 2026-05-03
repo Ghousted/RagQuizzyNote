@@ -1,0 +1,77 @@
+.container {
+  position: relative;
+  display: inline-block;
+}
+
+.trigger {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: var(--radius);
+  transition: background var(--duration) ease;
+  line-height: 1;
+}
+.trigger:hover { background: var(--bg-hover); }
+
+.emoji {
+  font-size: 40px;
+  line-height: 1;
+  display: block;
+  user-select: none;
+}
+
+.popover {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  background: var(--surface-2);
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 10px;
+  z-index: 200;
+  width: 224px;
+  animation: scaleIn 120ms ease;
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95) translateY(-4px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 2px;
+}
+
+.emojiBtn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  padding: 5px;
+  border-radius: var(--radius);
+  line-height: 1;
+  transition: background var(--duration) ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.emojiBtn:hover { background: var(--bg-active); }
+.emojiBtn.selected { background: var(--primary-dim); }
+
+.footer {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: center;
+}
+
+.removeBtn {
+  color: var(--text-3);
+  font-size: 12px;
+}
+.removeBtn:hover { color: var(--red); }

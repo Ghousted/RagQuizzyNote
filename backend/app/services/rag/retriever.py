@@ -12,8 +12,13 @@ def retrieve_chunks(
     note_id: uuid.UUID | None = None,
     top_k: int = 8,
     rerank_top: int = 3,
+    weak_topic_ids: list[uuid.UUID] | None = None,
 ) -> list[Chunk]:
-    """Embed query → query Pinecone (filtered by user_id) → hydrate from Postgres."""
+    """Embed query → query Pinecone (filtered by user_id) → hydrate from Postgres.
+
+    Chunks whose topic_id is in weak_topic_ids get a 1.5× score boost so the
+    adaptive loop surfaces weak-topic content preferentially.
+    """
     query_vec = get_embedder().embed([query])[0]
 
     pinecone_filter: dict = {"user_id": str(user_id)}
@@ -35,5 +40,10 @@ def retrieve_chunks(
 
     # Postgres is the source of truth for chunk text — never store raw text in Pinecone
     chunks = db.query(Chunk).filter(Chunk.id.in_(chunk_ids)).all()
-    chunks.sort(key=lambda c: score_map.get(c.id, 0.0), reverse=True)
+
+    weak_set = set(weak_topic_ids) if weak_topic_ids else set()
+    chunks.sort(
+        key=lambda c: score_map.get(c.id, 0.0) * (1.5 if c.topic_id in weak_set else 1.0),
+        reverse=True,
+    )
     return chunks[:rerank_top]
